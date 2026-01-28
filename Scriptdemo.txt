@@ -1,0 +1,103 @@
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua")))()
+
+       local Window = MakeWindow({
+         Hub = {
+         Title = "mavandat203",
+         Animation = "TIKTOK : at.47d"
+         },
+        Key = {
+        KeySystem = false,
+        Title = "Key System",
+        Description = "",
+        KeyLink = "mua",
+        Keys = {"mua"},
+        Notifi = {
+        Notifications = true,
+        CorrectKey = "Running the Script...",
+       Incorrectkey = "The key is incorrect",
+       CopyKeyLink = "Copied to Clipboard"
+      }
+    }
+  })
+
+       MinimizeButton({
+       Image = "http://www.roblox.com/asset/?id=131058582196458",
+       Size = {60, 60},
+       Color = Color3.fromRGB(10, 10, 10),
+       Corner = true,
+       Stroke = false,
+       StrokeColor = Color3.fromRGB(255, 0, 0)
+      })
+      
+------ Tab
+     local Tab1o = MakeTab({Name = "Script Farm"})
+     
+------- BUTTON
+    
+    AddButton(Tab1o, {
+     Name = "xova Hub",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/sofziol1fe/Script/refs/heads/main/main.luau"))(Settings)
+  end
+  })
+  
+  AddButton(Tab1o, {
+     Name = "farm",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+
+local autoFarm = true
+local attackDistance = 3
+
+-- CHỈNH THEO GAME
+local mobFolder = workspace:WaitForChild("Mobs")
+local leaderstats = player:WaitForChild("leaderstats")
+local levelValue = leaderstats:WaitForChild("Level")
+
+-- Tìm quái gần nhất
+local function getMob()
+    for _, mob in pairs(mobFolder:GetChildren()) do
+        if mob:FindFirstChild("Humanoid")
+        and mob.Humanoid.Health > 0
+        and mob:FindFirstChild("HumanoidRootPart") then
+            return mob
+        end
+    end
+end
+
+-- Auto Farm Loop
+task.spawn(function()
+    while autoFarm do
+        local mob = getMob()
+
+        if mob then
+            -- Teleport
+            hrp.CFrame = mob.HumanoidRootPart.CFrame * CFrame.new(0, 0, attackDistance)
+
+            -- Attack bằng Tool
+            for _, tool in pairs(character:GetChildren()) do
+                if tool:IsA("Tool") then
+                    tool:Activate()
+                end
+            end
+        end
+
+        task.wait(0.25)
+    end
+end)
+
+-- Log level lên
+levelValue:GetPropertyChangedSignal("Value"):Connect(function()
+    print("Level mới:", levelValue.Value)
+end)
